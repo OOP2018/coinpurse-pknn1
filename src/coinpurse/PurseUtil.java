@@ -60,7 +60,7 @@ public class PurseUtil {
     }
 
     /**
-     * Shorten constructing new Coin()
+     * Shortening constructing new Coin()
      *
      * @param value value of the coin, can't be negative.
      * @return Coin object with defined value in BTC currency.
@@ -70,7 +70,7 @@ public class PurseUtil {
     }
 
     /**
-     * Shorten constructing new Coin()
+     * Shortening constructing new Coin()
      *
      * @param value    value of the coin, can't be negative.
      * @param currency specific currency for the coin.
