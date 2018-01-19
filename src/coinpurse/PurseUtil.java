@@ -146,7 +146,7 @@ public class PurseUtil {
 
         double[] transaction = {12, 10, 2, 4, 5.2, 1};
 
-        purseTest(6, coins1, transaction);
+        purseTest(5, coins1, transaction);
 
         Coin[] coins2 = {
                 makeCoin(10.0, "THB"), makeCoin(2.0, "USD"), makeCoin(5.0),
