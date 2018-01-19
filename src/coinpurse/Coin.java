@@ -38,7 +38,8 @@ public class Coin implements Comparable<Coin> {
     @Override
     public boolean equals(Object arg) {
         if (arg == this) return true;
-        if (this.getClass() != arg.getClass()) return false;
+
+        if (arg == null || this.getClass() != arg.getClass()) return false;
 
         Coin aCoin = ((Coin) arg);
 

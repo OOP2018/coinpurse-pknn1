@@ -133,7 +133,6 @@ public class Purse {
         double amountNeedToWithdraw = amount;
         List<Coin> temp = new ArrayList<>();
         for (int i = money.size() - 1; i >= 0; i--) {
-
             if (amountNeedToWithdraw - money.get(i).getValue() >= 0) {
                 temp.add(money.get(i));
                 amountNeedToWithdraw -= money.get(i).getValue();
@@ -150,8 +149,8 @@ public class Purse {
         else return temp.toArray(new Coin[temp.size()]);
 
 	}
-  
-    /** 
+
+    /**
      * toString returns a string description of the purse contents.
      * It can return whatever is a useful description.
      */
