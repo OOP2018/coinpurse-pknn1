@@ -6,8 +6,8 @@ package coinpurse;
  * @author your name
  */
 public class Main {
-
-    /**
+/*
+    *//**
      * Configure and start the application.
      * @param args not used
      */
@@ -21,4 +21,5 @@ public class Main {
     	ui.run();
 
     }
+
 }
