@@ -16,7 +16,7 @@ public class Coin implements Comparable<Coin> {
      * @param currency the currency of the coin
      */
     Coin(double value, String currency) {
-        if (value < 0) throw new IllegalArgumentException("Coin value can't be negative amount");
+        if (value < 0) return;
         this.value = value;
         this.currency = currency;
     }

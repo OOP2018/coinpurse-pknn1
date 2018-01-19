@@ -3,6 +3,8 @@ package coinpurse;
 /**
  * Class for testing purse functional.
  * Contain method for testing purse with certain test case.
+ *
+ * @author Pakanon Pantisawat
  */
 
 public class PurseUtil {
@@ -29,7 +31,7 @@ public class PurseUtil {
 
         System.out.println("Test withdraw");
 
-        double amount = 5;
+        double amount = 10;
         Coin[] withdrew = purse.withdraw(amount);
         System.out.printf("Withdraw %.2f Baht Test. is null?: %s%n", amount, withdrew == null);
         if (withdrew != null) {
@@ -40,6 +42,22 @@ public class PurseUtil {
             System.out.print("]");
             System.out.println();
         }
+
+        System.out.printf("You have %d coin(s) in the purse, isFull: %s, total balance: %.2f%n", purse.count(), purse.isFull(), purse.getBalance());
+
+        amount = 19;
+        withdrew = purse.withdraw(amount);
+        System.out.printf("Withdraw %.2f Baht Test. is null?: %s%n", amount, withdrew == null);
+        if (withdrew != null) {
+            System.out.printf("Withdrew consists of [");
+            for (Coin aCoin : withdrew) {
+                System.out.print(aCoin.toString() + " ");
+            }
+            System.out.print("]");
+            System.out.println();
+        }
+
+        System.out.printf("You have %d coin(s) in the purse, isFull: %s, total balance: %.2f%n", purse.count(), purse.isFull(), purse.getBalance());
 
     }
 

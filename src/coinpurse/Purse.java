@@ -143,7 +143,10 @@ public class Purse {
             if (amountNeedToWithdraw == 0 || money.isEmpty()) break;
         }
 
-        if (amountNeedToWithdraw > 0) return null;
+        if (amountNeedToWithdraw > 0) {
+            money.addAll(temp);
+            return null;
+        }
         else return temp.toArray(new Coin[temp.size()]);
 
 	}
