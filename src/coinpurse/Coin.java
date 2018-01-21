@@ -15,17 +15,25 @@ public class Coin implements Comparable<Coin> {
      * @param value the value of coin must not be negative number
      * @param currency the currency of the coin
      */
-    Coin(double value, String currency) {
+    public Coin(double value, String currency) {
         if (value < 0) return;
         this.value = value;
         this.currency = currency;
     }
 
-
+    /**
+     * Get value from the object
+     *
+     * @return value of the coin
+     */
     public double getValue() {
         return value;
     }
 
+    /**
+     * Get the currency of object
+     * @return currency type of the object
+     */
     public String getCurrency() {
         return currency;
     }

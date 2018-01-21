@@ -137,11 +137,11 @@ public class Purse {
                 temp.add(money.get(i));
                 amountNeedToWithdraw -= money.get(i).getValue();
                 money.remove(i);
+                i--;
             }
 
             if (amountNeedToWithdraw == 0 || money.isEmpty()) break;
         }
-
         if (amountNeedToWithdraw > 0) {
             money.addAll(temp);
             return null;

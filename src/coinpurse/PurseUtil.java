@@ -140,12 +140,10 @@ public class PurseUtil {
     public static void main(String[] args) {
         Coin[] coins1 = {
                 makeCoin(5.0), makeCoin(10.0), makeCoin(10.0),
-                makeCoin(2.0), makeCoin(0.0), makeCoin(2.0),
-                makeCoin(1.0), makeCoin(5.0)
+                makeCoin(2.0), makeCoin(2.0), makeCoin(1.0)
         };
 
         double[] transaction = {12, 10, 2, 4, 5.2, 1};
-
         purseTest(5, coins1, transaction);
 
         Coin[] coins2 = {

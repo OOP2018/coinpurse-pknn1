@@ -16,7 +16,7 @@ public class MoneyUtil {
      * Compare the list before and after sorting to check if compareTo is functional
      * @param coins a list of coins consists of the test coins.
      */
-    private static void sortCoins(List<Coin> coins) {
+    public static void sortCoins(List<Coin> coins) {
         System.out.println("The value before sorting");
         printCoin(coins);
 
@@ -32,7 +32,7 @@ public class MoneyUtil {
      * @param currency Currency to filter
      * @return A filtered list of coins.
      */
-    private static List<Coin> filterByCurrency(List<Coin> coins, String currency) {
+    public static List<Coin> filterByCurrency(List<Coin> coins, String currency) {
         List<Coin> filteredList = new ArrayList<>();
         for(Coin aCoin : coins) {
             if (currency.equals(aCoin.getCurrency())) filteredList.add(aCoin);
@@ -45,7 +45,7 @@ public class MoneyUtil {
      * Print list of coins
      * @param coins List of a coins to print.
      */
-    private static void printCoin(List<Coin> coins) {
+    public static void printCoin(List<Coin> coins) {
         System.out.print("[ ");
         for (Coin coin : coins) System.out.print(coin.toString() + " ");
         System.out.println("]");
