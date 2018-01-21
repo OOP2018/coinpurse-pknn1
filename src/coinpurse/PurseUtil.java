@@ -40,7 +40,7 @@ public class PurseUtil {
             Collections.sort(testCoin);
             List<Coin> expected = new ArrayList<>();
             double amountToWithdraw = transaction;
-            for (int i = testCoin.size() - 1; i >= 0; i--) {
+            for (int i = 0; i < testCoin.size(); i++) {
                 if (amountToWithdraw - testCoin.get(i).getValue() >= 0) {
                     expected.add(testCoin.get(i));
                     amountToWithdraw -= testCoin.get(i).getValue();

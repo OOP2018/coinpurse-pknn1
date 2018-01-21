@@ -132,7 +132,7 @@ public class Purse {
 
         double amountNeedToWithdraw = amount;
         List<Coin> temp = new ArrayList<>();
-        for (int i = money.size() - 1; i >= 0; i--) {
+        for (int i = 0; i < money.size(); i++) {
             if (amountNeedToWithdraw - money.get(i).getValue() >= 0) {
                 temp.add(money.get(i));
                 amountNeedToWithdraw -= money.get(i).getValue();
