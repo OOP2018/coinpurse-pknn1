@@ -15,7 +15,7 @@ import java.util.Collections;
 public class Purse {
 
     /** Collection of objects in the purse. */
-    List<Coin> money;
+    private List<Coin> money;
     
     /** Capacity is maximum number of items the purse can hold.
      *  Capacity is set when the purse is created and cannot be changed.
@@ -132,12 +132,11 @@ public class Purse {
 
         double amountNeedToWithdraw = amount;
         List<Coin> temp = new ArrayList<>();
-        for (int i = 0; i < money.size(); i++) {
-            if (amountNeedToWithdraw - money.get(i).getValue() >= 0) {
-                temp.add(money.get(i));
-                amountNeedToWithdraw -= money.get(i).getValue();
-                money.remove(i);
-                i--;
+        for (int index = money.size() - 1; index >= 0; index--) {
+            if (amountNeedToWithdraw - money.get(index).getValue() >= 0) {
+                temp.add(money.get(index));
+                amountNeedToWithdraw -= money.get(index).getValue();
+                money.remove(index);
             }
 
             if (amountNeedToWithdraw == 0 || money.isEmpty()) break;

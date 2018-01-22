@@ -63,7 +63,7 @@ public class Coin implements Comparable<Coin> {
     public int compareTo(Coin coin) {
         if (coin.getValue() == this.value) return 0;
         else {
-            return this.getValue() > coin.value ? -1 : 1;
+            return this.getValue() > coin.value ? 1 : -1;
         }
     }
 
