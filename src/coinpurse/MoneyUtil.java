@@ -38,7 +38,6 @@ public class MoneyUtil {
         for (Valuable valuable : valuables) {
             if (currency.equals(valuable.getCurrency())) filteredList.add(valuable);
         }
-
         return filteredList;
     }
 
