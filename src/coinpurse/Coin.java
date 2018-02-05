@@ -5,7 +5,7 @@ package coinpurse;
  * @author Pakanon Pantisawat
  */
 
-public class Coin implements Comparable<Coin> {
+public class Coin implements Valuable {
 
     private double value;
     private String currency;
@@ -26,6 +26,7 @@ public class Coin implements Comparable<Coin> {
      *
      * @return value of the coin
      */
+    @Override
     public double getValue() {
         return value;
     }
@@ -34,6 +35,7 @@ public class Coin implements Comparable<Coin> {
      * Get the currency of object
      * @return currency type of the object
      */
+    @Override
     public String getCurrency() {
         return currency;
     }
@@ -52,19 +54,6 @@ public class Coin implements Comparable<Coin> {
         Coin aCoin = ((Coin) arg);
 
         return aCoin.getValue() == this.value && aCoin.getCurrency().equals(this.currency);
-    }
-
-    /**
-     * Compare the value of this coin.
-     * @param coin the coin to compare
-     * @return -1 if this coin has order before another coin, 1 if this coin's order after the another coin and 0 if equals.
-     */
-    @Override
-    public int compareTo(Coin coin) {
-        if (coin.getValue() == this.value) return 0;
-        else {
-            return this.getValue() > coin.value ? 1 : -1;
-        }
     }
 
     /**

@@ -1,74 +1,75 @@
 package coinpurse;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
- * Class for testing coin functional.
- * Contain method for sorting coin (for test compareTo() method).
+ * Class for testing valuable functional.
+ * Contain method for sorting valuable (for test compareTo() method).
  */
 public class MoneyUtil {
-
+    /**
+     * Comparator for value comparing
+     **/
+    private static Comparator<Valuable> comparator = new ValueComparator();
     /**
      * Compare the list before and after sorting to check if compareTo is functional
-     * @param coins a list of coins consists of the test coins.
+     * @param valuables a list of valuables consists of the test valuables.
      */
-    public static void sortCoins(List<Coin> coins) {
+    public static void sortValuable(List<Valuable> valuables) {
         System.out.println("The value before sorting");
-        printCoin(coins);
+        printValuable(valuables);
 
-        java.util.Collections.sort(coins);
+        valuables.sort(comparator);
 
         System.out.println("The value after sorting");
-        printCoin(coins);
+        printValuable(valuables);
     }
 
     /**
      * Filter the list by the currency provided
-     * @param coins List of coin to filter
+     * @param valuables List of valuables to filter
      * @param currency Currency to filter
-     * @return A filtered list of coins.
+     * @return A filtered list of valuables.
      */
-    public static List<Coin> filterByCurrency(List<Coin> coins, String currency) {
-        List<Coin> filteredList = new ArrayList<>();
-        for(Coin aCoin : coins) {
-            if (currency.equals(aCoin.getCurrency())) filteredList.add(aCoin);
+    public static List<Valuable> filterByCurrency(List<Valuable> valuables, String currency) {
+        List<Valuable> filteredList = new ArrayList<>();
+        for (Valuable valuable : valuables) {
+            if (currency.equals(valuable.getCurrency())) filteredList.add(valuable);
         }
 
         return filteredList;
     }
 
     /**
-     * Print list of coins
-     * @param coins List of a coins to print.
+     * Print list of valuable
+     * @param valuables List of a valuables to print.
      */
-    public static void printCoin(List<Coin> coins) {
+    public static void printValuable(List<Valuable> valuables) {
         System.out.print("[ ");
-        for (Coin coin : coins) System.out.print(coin.toString() + " ");
+        for (Valuable valuable : valuables) System.out.print(valuable.toString() + " ");
         System.out.println("]");
         System.out.println();
     }
 
     public static void main(String[] args) {
 
-        List<Coin> coins = new ArrayList<>();
+        List<Valuable> valuables = new ArrayList<>();
 
-        coins.add(new Coin(10.0, "Baht"));
-        coins.add(new Coin(0.5, "Baht"));
-        coins.add(new Coin(2.0, "Baht"));
-        coins.add(new Coin(1.0, "Baht"));
-        coins.add(new Coin(2.0, "Baht"));
-        coins.add(new Coin(0.5, "Baht"));
-        coins.add(new Coin(0.25, "Baht"));
-        coins.add(new Coin(10.0, "Baht"));
-        coins.add(new Coin(10.0, "Rupee"));
-        coins.add(new Coin(1.0, "Dollar"));
+        valuables.add(new Coin(10.0, "Baht"));
+        valuables.add(new Banknote(0.5, "Baht"));
+        valuables.add(new Coin(2.0, "Baht"));
+        valuables.add(new Banknote(1.0, "Baht"));
+        valuables.add(new Banknote(2.0, "Baht"));
+        valuables.add(new Coin(0.5, "Baht"));
+        valuables.add(new Banknote(0.25, "Baht"));
+        valuables.add(new Coin(10.0, "Baht"));
+        valuables.add(new Banknote(10.0, "Rupee"));
+        valuables.add(new Coin(1.0, "Dollar"));
 
-        sortCoins(coins);
-        List<Coin> filteredList = filterByCurrency(coins, "Baht");
-        printCoin(filteredList);
+        sortValuable(valuables);
+        List<Valuable> filteredList = filterByCurrency(valuables, "Baht");
+        printValuable(filteredList);
     }
 }
