@@ -102,36 +102,6 @@ public class Purse {
      */
     public Valuable[] withdraw(double amount) {
 
-        /*
-         * See lab sheet for outline of a solution,
-         * or devise your own solution.
-         * The idea is to be greedy.
-         * Try to withdraw the largest Valuables possible.
-         * Each time you choose a Valuable as a candidate for
-         * withdraw, add it to a temporary list and
-         * decrease the amount (remainder) to withdraw.
-         *
-         * If you reach a point where amountNeededToWithdraw == 0
-         * then you found a solution!
-         * Now, use the temporary list to remove Valuables
-         * from the money list, and return the temporary
-         * list (as an array).
-         */
-
-        // Did we get the full amount?
-        // This code assumes you decrease amount each time you remove a Valuable.
-        // Your code might use some other variable for the remaining amount to withdraw.
-		/*if ( amountNeededToWithdraw != 0 )
-		{	
-			// failed. Don't change the contents of the purse.
-			
-		}*/
-
-        // Success.
-        // Remove the Valuables you want to withdraw from purse,
-        // and return them as an array.
-        // Use list.toArray( array[] ) to copy a list into an array.
-        // toArray returns a reference to the array itself.
         if (amount < 0) {
             System.out.println("Withdraw amount that is negative is not allowed");
             return null;
