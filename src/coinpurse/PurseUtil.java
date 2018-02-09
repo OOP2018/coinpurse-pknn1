@@ -18,10 +18,18 @@ public class PurseUtil {
     private static int capacity;
 
 
+    /**
+     * Make a new money. If the value is greater than 20 will create the banknote, else create the coin.
+     *
+     * @param value    value of the money.
+     * @param currency currency of the money.
+     * @return money object.
+     */
     public static Money makeMoney(double value, String currency) {
         if (value >= 20) return new Banknote(value, currency);
         return new Coin(value, currency);
     }
+
 
     public static String valToString(List<Valuable> valuables) {
         if (valuables == null) return "NULL";
@@ -39,6 +47,11 @@ public class PurseUtil {
         return a.toString();
     }
 
+    /**
+     * Method for testing withdraw with Valuable in argument.
+     * @param amount Amount to withdraw.
+     * @return array of valuable if could, or null.
+     */
     public static Valuable[] withdraw(Valuable amount) {
         if (amount == null || amount.getValue() < 0) {
             System.out.println("Withdraw amount can't be null or less than 1.");
@@ -68,29 +81,49 @@ public class PurseUtil {
         return withdrawing.toArray(new Valuable[withdrawing.size()]);
     }
 
+    /**
+     * Method for testing withdraw with double amount in argument.
+     * @param amount Amount to withdraw.
+     * @return array of valuable if could, or null.
+     */
     public static Valuable[] withdraw(double amount) {
         Money withdrawingAmount = new Money(amount, "Baht");
         return withdraw(withdrawingAmount);
     }
 
+    /**
+     * Method for testing isFull()
+     * @return true if size of arrayList is equals to capacity.
+     */
     public static boolean isFull() {
         return money.size() == capacity;
     }
 
+    /**
+     * Method for testing insert()
+     * @param valuable valuable to insert in the list.
+     * @return true if could insert, else false.
+     */
     public static boolean insert(Valuable valuable) {
         return !isFull() && !(valuable.getValue() <= 0) && money.add(valuable);
     }
 
+    /**
+     * Method for testing getBalance()
+     * @return total balance of the money.
+     */
     public static double getBalance() {
         double balance = 0;
         for (Valuable val : money) balance += val.getValue();
         return balance;
     }
 
-    public static String staticToString() {
-        return String.format("This purse have %d valuables with %d max capacity and total balance %.2f", money.size(), capacity, getBalance());
-    }
-
+    /**
+     * Print test case and compare the result.
+     * @param testName Test message.
+     * @param expected expected value of the case.
+     * @param actual actual value.
+     */
     public static void testCase(String testName, Object expected, Object actual) {
         if (expected == null) expected = "NULL";
         if (actual == null) actual = "NULL";
@@ -98,7 +131,12 @@ public class PurseUtil {
         System.out.println(String.format("Expected: %s Actual: %s Result: %s", expected, actual, expected.equals(actual) ? "PASS" : "FAIL"));
     }
 
-
+    /**
+     * Method to test every method of purse.
+     * @param capacity capacity of the purse.
+     * @param testMoney array of testing money.
+     * @param transaction array of testing transaction.
+     */
     public static void testPurse(int capacity, Valuable[] testMoney, Valuable[] transaction) {
         System.out.println("Testing new Purse()");
         Purse purse = new Purse(capacity);
@@ -128,6 +166,10 @@ public class PurseUtil {
         }
     }
 
+    /**
+     * Run the test.
+     * @param args doesn't use in this method.
+     */
     public static void main(String[] args) {
         Valuable[] valuables = {
                 makeMoney(1, "Baht"), makeMoney(1, "Baht"), makeMoney(2, "Baht"),
