@@ -39,7 +39,6 @@ public class PurseUtil {
     public static String valToString(Valuable[] valuables) {
         if (valuables == null) return "NULL";
         StringBuilder a = new StringBuilder("[ ");
-        System.out.print("[ ");
         for (Valuable val : valuables) {
             a.append(val.toString()).append(" ");
         }
@@ -53,7 +52,7 @@ public class PurseUtil {
      * @return array of valuable if could, or null.
      */
     public static Valuable[] withdraw(Valuable amount) {
-        if (amount == null || amount.getValue() < 0) {
+        if (amount == null || amount.getValue() < 1) {
             System.out.println("Withdraw amount can't be null or less than 1.");
             return null;
         }
@@ -125,10 +124,12 @@ public class PurseUtil {
      * @param actual actual value.
      */
     public static void testCase(String testName, Object expected, Object actual) {
+        System.out.println();
         if (expected == null) expected = "NULL";
         if (actual == null) actual = "NULL";
         System.out.println("Testing: " + testName);
-        System.out.println(String.format("Expected: %s Actual: %s Result: %s", expected, actual, expected.equals(actual) ? "PASS" : "FAIL"));
+        System.out.println(String.format("Expected: %s Actual: %s%nResult: %s", expected, actual, expected.equals(actual) ? "PASS" : "FAIL"));
+        System.out.println();
     }
 
     /**
@@ -145,6 +146,7 @@ public class PurseUtil {
         testCase("getCapacity()", capacity, purse.getCapacity());
         testCase("getBalance()", 0, purse.getBalance());
         testCase("count()", 0, purse.count());
+        testCase("getBalance()", getBalance(), purse.getBalance());
         testCase("isFull()", isFull(), purse.isFull());
         System.out.println("Inserting money.");
         for (Valuable val : testMoney) {
@@ -153,6 +155,7 @@ public class PurseUtil {
 
         System.out.println("withdraw(double amount)");
         for (Valuable trans : transaction) {
+            System.out.println("Purse contain: " + valToString(money));
             Valuable[] expected = withdraw(trans.getValue());
             Valuable[] actual = purse.withdraw(trans.getValue());
             testCase(String.format("Withdrawing %.0f Baht", trans.getValue()), valToString(expected), valToString(actual));
@@ -160,6 +163,7 @@ public class PurseUtil {
 
         System.out.println("withdraw(Valuable amount)");
         for (Valuable trans : transaction) {
+            System.out.println("Purse contain: " + valToString(money));
             Valuable[] expected = withdraw(trans);
             Valuable[] actual = purse.withdraw(trans);
             testCase(String.format("Withdrawing %.0f %s", trans.getValue(), trans.getCurrency()), valToString(expected), valToString(actual));
@@ -183,9 +187,10 @@ public class PurseUtil {
         };
 
         Money[] transaction = {
-                new Money(10, "Baht"), new Money(10, "Baht"), new Money(10, "Dollar"),
+                new Money(10, "Baht"), new Money(22, "Baht"), new Money(10, "Dollar"),
                 new Money(16, "Baht"), new Money(55, "Dollar"), new Money(44, "Dollar"),
                 new Money(7, "Baht"), new Money(32, "Dollar"), new Money(0, "Dollar"),
+                new Money(100, "Baht"), new Money(5, "Dollar")
         };
 
 

@@ -55,6 +55,6 @@ public class Banknote extends Money {
      */
     @Override
     public String toString() {
-        return String.format("%.0f-%s Note [%d]", getValue(), getCurrency(), serialNumber);
+        return String.format("%.0f-%s Note", getValue(), getCurrency());
     }
 }
