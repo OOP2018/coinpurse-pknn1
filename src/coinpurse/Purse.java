@@ -1,5 +1,6 @@
 package coinpurse;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
@@ -87,12 +88,57 @@ public class Purse {
      * @return true if valuable can be inserted, false if can't insert
      */
     public boolean insert(Valuable valuable) {
-        // if the purse is already full then can't insert anything.
         return !isFull() && !(valuable.getValue() <= 0) && money.add(valuable);
     }
 
+    public Valuable[] withdraw(Valuable amount) {
+        if (amount == null) return null;
+        if (amount.getValue() < 0) {
+            System.out.println("Withdraw amount that is negative is not allowed.");
+            return null;
+        }
+
+        List<Valuable> sortedMoney = MoneyUtil.filterByCurrency(money, amount.getCurrency());
+        money.removeAll(sortedMoney);
+        sortedMoney.sort(comparator);
+        printValuable(sortedMoney);
+
+        List<Valuable> withdrawing = new ArrayList<>();
+        double amountNeedToWithdraw = amount.getValue();
+        for (int i = sortedMoney.size() - 1; i >= 0; i--) {
+            if (amountNeedToWithdraw - sortedMoney.get(i).getValue() >= 0) {
+                amountNeedToWithdraw -= sortedMoney.get(i).getValue();
+                withdrawing.add(sortedMoney.get(i));
+                sortedMoney.remove(i);
+            }
+        }
+
+        if (amountNeedToWithdraw > 0) {
+            sortedMoney.addAll(withdrawing);
+            money.addAll(sortedMoney);
+            return null;
+        }
+        money.addAll(sortedMoney);
+        return withdrawing.toArray(new Valuable[withdrawing.size()]);
+    }
+
     /**
-     * Withdraw the requested amount of money.
+     * Helper method to print a list of valuable.
+     *
+     * @param valuables List of valuable to print.
+     */
+    private void printValuable(List<Valuable> valuables) {
+        System.out.println("This print: ");
+        System.out.print("[ ");
+        for (Valuable val : valuables) {
+            System.out.print(val.toString() + " ");
+        }
+
+        System.out.println(" ]");
+    }
+
+    /**
+     * Withdraw the requested amount of money with currency of "Baht".
      * Return an array of Valuables withdrawn from purse,
      * or return null if cannot withdraw the amount requested.
      *
@@ -101,28 +147,8 @@ public class Purse {
      * or null if cannot withdraw requested amount.
      */
     public Valuable[] withdraw(double amount) {
-
-        if (amount < 0) {
-            System.out.println("Withdraw amount that is negative is not allowed");
-            return null;
-        }
-
-        money.sort(comparator);
-        List<Valuable> withdrawing = new ArrayList<>();
-        double amountNeedToWithdraw = amount;
-        for (int i = money.size() - 1; i >= 0; i--) {
-            if (amountNeedToWithdraw - money.get(i).getValue() >= 0) {
-                amountNeedToWithdraw -= money.get(i).getValue();
-                withdrawing.add(money.get(i));
-                money.remove(i);
-            }
-        }
-
-        if (amountNeedToWithdraw > 0) {
-            money.addAll(withdrawing);
-            return null;
-        }
-        return withdrawing.toArray(new Valuable[withdrawing.size()]);
+        Valuable valuableAmount = new Money(amount, "Baht");
+        return withdraw(valuableAmount);
     }
 
     /**

@@ -14,151 +14,139 @@ import java.util.List;
 
 public class PurseUtil {
     private static Comparator<Valuable> comparator = new ValueComparator();
+    private static List<Valuable> money;
+    private static int capacity;
 
-    /**
-     * Test purse functional in certain methods and cases.
-     *
-     * @param capacity  capacity of the purse which can't be negative number.
-     * @param Valuables     Valuables array to put in the purse.
-     * @param withdraws withdraws transaction to test the purse.
-     */
-    private static void purseTest(int capacity, Valuable[] Valuables, double... withdraws) {
-        Purse purse = new Purse(capacity);
-        System.out.println("========== NEW PURSE ===========");
 
-        printTest("Constructor test with capacity " + capacity, capacity, purse.getCapacity());
-        printTest("getBalance() test before adding Valuables", 0.0, purse.getBalance());
-        printTest("isFull() test before adding Valuables", false, purse.isFull());
-
-        List<Valuable> testValuable = insertTest(purse, Valuables);
-        double total = 0.0;
-        for (Valuable Valuable : testValuable) total += Valuable.getValue();
-
-        printTest("getBalance() test after added Valuables", total, purse.getBalance());
-        printTest("isFull() test after added Valuables", true, purse.isFull());
-        printTest("toString() test", String.format("This purse have %d valuables with %d max capacity and total balance %.2f", capacity, capacity, total), purse.toString());
-
-        for (double transaction : withdraws) {
-            testValuable.sort(comparator);
-            List<Valuable> expected = new ArrayList<>();
-            double amountToWithdraw = transaction;
-            System.out.println(stringValuable(testValuable));
-            for (int i = testValuable.size() - 1; i >= 0; i--) {
-                if (amountToWithdraw - testValuable.get(i).getValue() >= 0) {
-                    expected.add(testValuable.get(i));
-                    amountToWithdraw -= testValuable.get(i).getValue();
-                    testValuable.remove(i);
-                    i--;
-                }
-            }
-            if (amountToWithdraw > 0) {
-                testValuable.addAll(expected);
-                expected = null;
-            }
-            List<Valuable> actual = new ArrayList<>();
-            Valuable[] actualArray = purse.withdraw(transaction);
-            if (actualArray == null) actual = null;
-            else Collections.addAll(actual, actualArray);
-            printTest(String.format("withdraw(%.2f) test.", transaction), stringValuable(expected), stringValuable(actual));
-        }
-    }
-
-    /**
-     * Shortening constructing new Valuable()
-     *
-     * @param value value of the Valuable, can't be negative.
-     * @return Valuable object with defined value in BTC currency.
-     */
-    private static Valuable makeValuable(double value) {
-        return makeValuable(value, "BTC");
-    }
-
-    /**
-     * Shortening constructing new valuable.
-     * This method will differ making coin or banknote depends on value.
-     * @param value    value of the valuable, can't be negative.
-     * @param currency specific currency for the Valuable.
-     * @return valuable object with specific value and currency.
-     */
-    private static Valuable makeValuable(double value, String currency) {
-        if (value > 10) return new Banknote(value, currency);
+    public static Money makeMoney(double value, String currency) {
+        if (value >= 20) return new Banknote(value, currency);
         return new Coin(value, currency);
     }
 
-    private static List<Valuable> insertTest(Purse purse, Valuable... Valuables) {
-        int count = 0;
-        List<Valuable> testValuable = new ArrayList<>();
-        for (Valuable Valuable : Valuables) {
-            boolean expected = count + 1 <= purse.getCapacity() && Valuable.getValue() > 0;
-            printTest(String.format("Insert test for %s Valuables", Valuable.toString()), expected, purse.insert(Valuable));
+    public static String valToString(List<Valuable> valuables) {
+        if (valuables == null) return "NULL";
+        return valToString(valuables.toArray(new Valuable[valuables.size()]));
+    }
 
-            if (expected) {
-                testValuable.add(Valuable);
-                count++;
+    public static String valToString(Valuable[] valuables) {
+        if (valuables == null) return "NULL";
+        StringBuilder a = new StringBuilder("[ ");
+        System.out.print("[ ");
+        for (Valuable val : valuables) {
+            a.append(val.toString()).append(" ");
+        }
+        a.append(" ]");
+        return a.toString();
+    }
+
+    public static Valuable[] withdraw(Valuable amount) {
+        if (amount == null || amount.getValue() < 0) {
+            System.out.println("Withdraw amount can't be null or less than 1.");
+            return null;
+        }
+
+        List<Valuable> sortedMoney = MoneyUtil.filterByCurrency(money, amount.getCurrency());
+        money.removeAll(sortedMoney);
+        sortedMoney.sort(comparator);
+
+        List<Valuable> withdrawing = new ArrayList<>();
+        double amountToWithdraw = amount.getValue();
+        for (int i = sortedMoney.size() - 1; i >= 0; i--) {
+            if (amountToWithdraw - sortedMoney.get(i).getValue() >= 0) {
+                withdrawing.add(sortedMoney.get(i));
+                amountToWithdraw -= sortedMoney.get(i).getValue();
+                sortedMoney.remove(i);
             }
         }
-        return testValuable;
+
+        if (amountToWithdraw > 0) {
+            sortedMoney.addAll(withdrawing);
+            money.addAll(sortedMoney);
+            return null;
+        }
+        money.addAll(sortedMoney);
+        return withdrawing.toArray(new Valuable[withdrawing.size()]);
     }
 
-    /**
-     * Make string format of any number of Valuables.
-     *
-     * @param Valuables Valuable object
-     * @return Readable string of Valuables.
-     */
-    private static String stringValuable(Valuable... Valuables) {
-        if (Valuables == null) return "null";
-        StringBuilder ret = new StringBuilder("[ ");
-        for (Valuable Valuable : Valuables) ret.append(Valuable.toString()).append(" ");
-        ret.append("] ");
-        return ret.toString();
+    public static Valuable[] withdraw(double amount) {
+        Money withdrawingAmount = new Money(amount, "Baht");
+        return withdraw(withdrawingAmount);
     }
 
-    /**
-     * Make string format of Valuable's list.
-     *
-     * @param Valuables List of Valuable object.
-     * @return string of Valuables.
-     */
-    private static String stringValuable(List<Valuable> Valuables) {
-        if (Valuables == null) return "null";
-        Valuable[] temp = Valuables.toArray(new Valuable[Valuables.size()]);
-        return stringValuable(temp);
+    public static boolean isFull() {
+        return money.size() == capacity;
     }
 
-    /**
-     * Check test case and print to user if it's pass the case or fail.
-     *
-     * @param prompt   prompt message for test case.
-     * @param expected expected value for the case.
-     * @param actual   actual value from the method.
-     */
-    private static void printTest(String prompt, Object expected, Object actual) {
-        System.out.println(prompt);
-        System.out.printf("Expected: %s, Actual: %s. Result is %s%n%n", expected, actual, expected.equals(actual) ? "PASS" : "FAIL");
+    public static boolean insert(Valuable valuable) {
+        return !isFull() && !(valuable.getValue() <= 0) && money.add(valuable);
     }
 
-    /**
-     * All the test case configuring here
-     * @param args not used in this method.
-     */
+    public static double getBalance() {
+        double balance = 0;
+        for (Valuable val : money) balance += val.getValue();
+        return balance;
+    }
+
+    public static String staticToString() {
+        return String.format("This purse have %d valuables with %d max capacity and total balance %.2f", money.size(), capacity, getBalance());
+    }
+
+    public static void testCase(String testName, Object expected, Object actual) {
+        if (expected == null) expected = "NULL";
+        if (actual == null) actual = "NULL";
+        System.out.println("Testing: " + testName);
+        System.out.println(String.format("Expected: %s Actual: %s Result: %s", expected, actual, expected.equals(actual) ? "PASS" : "FAIL"));
+    }
+
+
+    public static void testPurse(int capacity, Valuable[] testMoney, Valuable[] transaction) {
+        System.out.println("Testing new Purse()");
+        Purse purse = new Purse(capacity);
+        money = new ArrayList<>();
+        PurseUtil.capacity = capacity;
+        testCase("getCapacity()", capacity, purse.getCapacity());
+        testCase("getBalance()", 0, purse.getBalance());
+        testCase("count()", testMoney.length, purse.count());
+        testCase("isFull()", isFull(), purse.isFull());
+        System.out.println("Inserting money.");
+        for (Valuable val : testMoney) {
+            testCase(String.format("Insert %.0f %s", val.getValue(), val.getCurrency()), insert(val), purse.insert(val));
+        }
+
+        System.out.println("withdraw(double amount)");
+        for (Valuable trans : transaction) {
+            Valuable[] expected = withdraw(trans.getValue());
+            Valuable[] actual = purse.withdraw(trans.getValue());
+            testCase(String.format("Withdrawing %.0f Baht", trans.getValue()), valToString(expected), valToString(actual));
+        }
+
+        System.out.println("withdraw(Valuable amount)");
+        for (Valuable trans : transaction) {
+            Valuable[] expected = withdraw(trans);
+            Valuable[] actual = purse.withdraw(trans);
+            testCase(String.format("Withdrawing %.0f %s", trans.getValue(), trans.getCurrency()), valToString(expected), valToString(actual));
+        }
+    }
+
     public static void main(String[] args) {
-        Valuable[] Valuables1 = {
-                makeValuable(5.0), makeValuable(10.0), makeValuable(10.0),
-                makeValuable(2.0), makeValuable(2.0), makeValuable(1.0)
+        Valuable[] valuables = {
+                makeMoney(1, "Baht"), makeMoney(1, "Baht"), makeMoney(2, "Baht"),
+                makeMoney(1, "Dollar"), makeMoney(1, "Dollar"), makeMoney(2, "Dollar"),
+                makeMoney(5, "Baht"), makeMoney(5, "Baht"), makeMoney(10, "Baht"),
+                makeMoney(5, "Dollar"), makeMoney(5, "Dollar"), makeMoney(10, "Dollar"),
+                makeMoney(20, "Baht"), makeMoney(20, "Baht"), makeMoney(50, "Baht"),
+                makeMoney(20, "Dollar"), makeMoney(20, "Dollar"), makeMoney(50, "Dollar"),
+                makeMoney(100, "Baht"), makeMoney(50, "Baht"), makeMoney(50, "Baht"),
+                makeMoney(100, "Dollar"), makeMoney(50, "Dollar"), makeMoney(50, "Dollar"),
         };
 
-        double[] transaction = {12, 10, 2, 4, 5.2, 1};
-        purseTest(5, Valuables1, transaction);
-
-        Valuable[] Valuables2 = {
-                makeValuable(10.0, "THB"), makeValuable(2.0, "USD"), makeValuable(5.0),
-                makeValuable(10.0, "JPY"), makeValuable(1.0, "CNY"), makeValuable(0.5, "THB"),
-                makeValuable(0.0), makeValuable(-2.0, "THB"), makeValuable(2.0),
-                makeValuable(10.0), makeValuable(5.0, "USD"), makeValuable(1.0)
+        Money[] transaction = {
+                new Money(10, "Baht"), new Money(10, "Baht"), new Money(10, "Dollar"),
+                new Money(16, "Baht"), new Money(55, "Dollar"), new Money(44, "Dollar"),
+                new Money(7, "Baht"), new Money(32, "Dollar"), new Money(0, "Dollar"),
         };
 
-        purseTest(10, Valuables2, transaction);
+        testPurse(20, valuables, transaction);
     }
 
 }

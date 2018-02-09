@@ -5,7 +5,7 @@ package coinpurse;
  *
  * @author Pakanon Pantisawat
  */
-public interface Valuable {
+public interface Valuable extends Comparable<Valuable> {
     /**
      * Get the value from the attribute.
      * @return value of this valuable item.
