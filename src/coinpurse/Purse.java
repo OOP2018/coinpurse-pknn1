@@ -101,7 +101,6 @@ public class Purse {
         List<Valuable> sortedMoney = MoneyUtil.filterByCurrency(money, amount.getCurrency());
         money.removeAll(sortedMoney);
         sortedMoney.sort(comparator);
-        printValuable(sortedMoney);
 
         List<Valuable> withdrawing = new ArrayList<>();
         double amountNeedToWithdraw = amount.getValue();
@@ -120,21 +119,6 @@ public class Purse {
         }
         money.addAll(sortedMoney);
         return withdrawing.toArray(new Valuable[withdrawing.size()]);
-    }
-
-    /**
-     * Helper method to print a list of valuable.
-     *
-     * @param valuables List of valuable to print.
-     */
-    private void printValuable(List<Valuable> valuables) {
-        System.out.println("This print: ");
-        System.out.print("[ ");
-        for (Valuable val : valuables) {
-            System.out.print(val.toString() + " ");
-        }
-
-        System.out.println(" ]");
     }
 
     /**

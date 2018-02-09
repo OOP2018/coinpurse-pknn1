@@ -144,7 +144,7 @@ public class PurseUtil {
         PurseUtil.capacity = capacity;
         testCase("getCapacity()", capacity, purse.getCapacity());
         testCase("getBalance()", 0, purse.getBalance());
-        testCase("count()", testMoney.length, purse.count());
+        testCase("count()", 0, purse.count());
         testCase("isFull()", isFull(), purse.isFull());
         System.out.println("Inserting money.");
         for (Valuable val : testMoney) {
@@ -187,6 +187,7 @@ public class PurseUtil {
                 new Money(16, "Baht"), new Money(55, "Dollar"), new Money(44, "Dollar"),
                 new Money(7, "Baht"), new Money(32, "Dollar"), new Money(0, "Dollar"),
         };
+
 
         testPurse(20, valuables, transaction);
     }
