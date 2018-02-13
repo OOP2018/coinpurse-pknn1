@@ -1,7 +1,6 @@
 package coinpurse;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class PurseUtil {
      * @return money object.
      */
     public static Money makeMoney(double value, String currency) {
-        if (value >= 20) return new Banknote(value, currency);
+        if (value >= 20) return new BankNote(value, currency);
         return new Coin(value, currency);
     }
 

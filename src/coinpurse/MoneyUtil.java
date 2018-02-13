@@ -57,14 +57,14 @@ public class MoneyUtil {
         List<Valuable> valuables = new ArrayList<>();
 
         valuables.add(new Coin(10.0, "Baht"));
-        valuables.add(new Banknote(0.5, "Baht"));
+        valuables.add(new BankNote(0.5, "Baht"));
         valuables.add(new Coin(2.0, "Baht"));
-        valuables.add(new Banknote(1.0, "Baht"));
-        valuables.add(new Banknote(2.0, "Baht"));
+        valuables.add(new BankNote(1.0, "Baht"));
+        valuables.add(new BankNote(2.0, "Baht"));
         valuables.add(new Coin(0.5, "Baht"));
-        valuables.add(new Banknote(0.25, "Baht"));
+        valuables.add(new BankNote(0.25, "Baht"));
         valuables.add(new Coin(10.0, "Baht"));
-        valuables.add(new Banknote(10.0, "Rupee"));
+        valuables.add(new BankNote(10.0, "Rupee"));
         valuables.add(new Coin(1.0, "Dollar"));
 
         sortValuable(valuables);

@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +37,7 @@ public class PurseTest {
      * Make a valuable with the default currency. To save typing "new Coin(...)"
      */
     private Valuable makeValuable(double value) {
-        if (value > 10) return new Banknote(value, CURRENCY);
+        if (value > 10) return new BankNote(value, CURRENCY);
         return new Coin(value, CURRENCY);
 	}
 
