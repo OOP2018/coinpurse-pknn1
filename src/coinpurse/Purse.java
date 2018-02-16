@@ -93,8 +93,8 @@ public class Purse {
 
     public Valuable[] withdraw(Valuable amount) {
         if (amount == null) return null;
-        if (amount.getValue() < 1) {
-            System.out.println("Withdraw amount that is less than 1 is not allowed.");
+        if (amount.getValue() <= 0) {
+            System.out.println("Withdraw amount that is less than 0 is not allowed.");
             return null;
         }
 

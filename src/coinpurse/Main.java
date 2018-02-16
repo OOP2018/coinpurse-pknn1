@@ -1,5 +1,7 @@
 package coinpurse;
- 
+
+import java.util.*;
+
 /**
  * A main class to create objects and connect objects together.
  * The user interface needs a reference to coin purse.
@@ -19,6 +21,7 @@ public class Main {
         // 3. run the ConsoleDialog
     	ui.run();
 
-    }
+
+	}
 
 }
