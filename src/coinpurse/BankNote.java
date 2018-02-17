@@ -9,7 +9,6 @@ public class BankNote extends Money {
     /**
      * Next serial number for create new BankNote
      **/
-    private static long nextSerialNumber = 100_000_000L;
     private long serialNumber;
 
     /**
@@ -20,8 +19,15 @@ public class BankNote extends Money {
      */
     public BankNote(double value, String currency) {
         super(value, currency);
-        this.serialNumber = nextSerialNumber;
-        nextSerialNumber++;
+    }
+
+    /**
+     * Set serial number for banknote.
+     *
+     * @param serialNumber serial number to set.
+     */
+    public void setSerialNumber(long serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     /**

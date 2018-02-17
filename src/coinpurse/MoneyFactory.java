@@ -1,14 +1,19 @@
 package coinpurse;
 
 public abstract class MoneyFactory {
-    private static MoneyFactory ourInstance = null;
+    private static MoneyFactory instance = null;
+
 
     protected MoneyFactory() {
 
     }
 
     public static MoneyFactory getInstance() {
-        return ourInstance;
+        return instance;
+    }
+
+    public static void setFactory(MoneyFactory factory) {
+        instance = factory;
     }
 
     public abstract Valuable createMoney(double value);
