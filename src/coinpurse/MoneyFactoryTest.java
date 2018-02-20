@@ -14,9 +14,14 @@ public class MoneyFactoryTest {
 
     @Before
     public void setUp() {
-
+        // Nothing to setup
     }
 
+    /**
+     * Set factory for the MoneyFactory to create instance.
+     *
+     * @param factoryClass is the name of factory class.
+     */
     private void setFactory(String factoryClass) {
         MoneyFactory moneyFactory = null;
         try {
@@ -32,6 +37,11 @@ public class MoneyFactoryTest {
         else if (moneyFactory.getClass().equals(MalayMoneyFactory.class)) currency = "Ringgit";
     }
 
+    /**
+     * Make valuable based on value and currency.
+     * @param value value of the money in the specific currency.
+     * @return new Money object.
+     */
     private Valuable makeValuable(double value) {
         if (currency.equals("Baht")) {
             if (value == 1 || value == 2 || value == 5 || value == 10)
@@ -48,16 +58,24 @@ public class MoneyFactoryTest {
         throw new IllegalArgumentException("Cannot create " + value + " " + currency);
     }
 
+    /**
+     * Test creating factory by checking class of the instance.
+     */
     @Test
     public void testCreateFactory() {
         setFactory("ThaiMoneyFactory");
         assertEquals(ThaiMoneyFactory.class, moneyFactory.getClass());
+        assertNotEquals(MalayMoneyFactory.class, moneyFactory.getClass());
         assertEquals(currency, "Baht");
         setFactory("MalayMoneyFactory");
         assertEquals(MalayMoneyFactory.class, moneyFactory.getClass());
+        assertNotEquals(ThaiMoneyFactory.class, moneyFactory.getClass());
         assertEquals(currency, "Ringgit");
     }
 
+    /**
+     * Test creating money that has valid value.
+     */
     @Test
     public void testCreateLegalMoney() {
         setFactory("ThaiMoneyFactory");
@@ -72,24 +90,42 @@ public class MoneyFactoryTest {
         }
     }
 
+
+    /**
+     * Test creating money that has invalid value in Thai Baht.
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testCreateIllegalThaiMoney() {
         setFactory("ThaiMoneyFactory");
         moneyFactory.createMoney(0.9);
     }
 
+    /**
+     * Test creating money that has invalid value in Malaysia Ringgit.
+     */
     @Test(expected = IllegalArgumentException.class)
     public void testCreateIllegalMalayMoney() {
         setFactory("MalayMoneyFactory");
         moneyFactory.createMoney(0.9);
     }
 
+    /**
+     * Test serial number of the factory to be unique.
+     */
     @Test
     public void testBankNoteSerialNumber() {
         double value = 20;
         setFactory("ThaiMoneyFactory");
         BankNote bankNote = (BankNote) moneyFactory.createMoney(value);
         long prevSerialNumber = bankNote.getSerial();
+        for (int round = 0; round < 5; round++) {
+            bankNote = (BankNote) moneyFactory.createMoney(value);
+            assertNotEquals(bankNote.getSerial(), prevSerialNumber);
+            prevSerialNumber = bankNote.getSerial();
+        }
+        setFactory("MalayMoneyFactory");
+        bankNote = (BankNote) moneyFactory.createMoney(value);
+        prevSerialNumber = bankNote.getSerial();
         for (int round = 0; round < 5; round++) {
             bankNote = (BankNote) moneyFactory.createMoney(value);
             assertNotEquals(bankNote.getSerial(), prevSerialNumber);
