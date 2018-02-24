@@ -19,7 +19,7 @@ public abstract class MoneyFactory {
      */
     public static MoneyFactory getInstance() {
         if (instance == null) {
-            MoneyFactory.setFactory(ThaiMoneyFactory.getInstance());
+            MoneyFactory.setFactory(new ThaiMoneyFactory());
         }
         return instance;
     }

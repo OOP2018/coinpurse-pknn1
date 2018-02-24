@@ -40,7 +40,6 @@ public class Main {
         ConsoleDialog ui = new ConsoleDialog(purse, currency);
         // 3. run the ConsoleDialog
     	ui.run();
-
     }
 
 }
